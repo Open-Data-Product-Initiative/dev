@@ -5,11 +5,18 @@
 ```yml
 dataQuality:
   declarative:
-    - dimension: selected dimension
-      displaytitle:
-      description:
-      objective: 
-      unit:
+    default:
+      dimensions:
+        - dimension: accuracy
+          displaytitle:
+            en: Data Accuracy (percent)
+          objective: 90
+          unit: percentage
+        - dimension: completeness
+          displaytitle:
+            - en: Data Completeness (percent)
+          objective: 90
+          unit: percentage
   executable:
     - dimension: selected dimension
       type:  
@@ -17,50 +24,60 @@ dataQuality:
       reference: 
       spec:
 ```
-
-> In case standardized options are not enough:
-
-```yml
-The QA object is general in nature and should 
-be enough for common (80%) use cases. 
-
-You can make extensions to the standard 
-with "x-" mechanism in order to fulfill 
-any industry specific needs. 
-
-A suggestive example below 
-
-dataQuality:
-  declarative:
-    - dimension: accuracy
-      displaytitle:
-      - en: Data Accuracy (percent)
-    - x-dimension: extended-dq
-      displaytitle:
-      - en: Extended Data Quality dimension
-```
-
 Data quality is essential for one main reason: You give customers the best experience when you make decisions using accurate data. A great customer experience leads to happy customers, brand loyalty, and higher revenue for your business. Information is only valuable if it is of high quality.  
 
 By adhering to defined quality characteristics, organizations can maximize the value of their data assets, improve decision-making, enhance operational efficiency, and maintain trust and confidence in their data-driven processes and systems. ODPS is compatible with EDM Council data quality model.
 
-How can you assess your data quality? The ODPS support "as code" approach to monitor data quality. Supported DQ tools for Everything as Code to define monitoring are: 
+The `dataQuality` component in ODPS provides a structured and machine-readable way to **declare and monitor the quality characteristics** of a data product. It helps align technical validation with business expectations and supports both human understanding and automated tooling.
 
-* SodaCL
-* MonteCarlo
-* DQOps
-* Custom (in-house solutions)
+**Structure Overview:**
+The `dataQuality` object consists of two parts:
 
-**Structure notes:** The Data Quality object is divided into 2 parts: declarative and executable. 
+- **`declarative`**: Captures target levels for defined quality dimensions like `accuracy`, `completeness`, or `timeliness`. These values represent your **intended** or **promised** quality levels.
+- **`executive`**: Allows integration with supported *Everything as Code* tools (e.g., SodaCL, DQOps, MonteCarlo) to define **verifiable** and **executable** rules that check whether those targets are met in practice.
 
-* Declarative part defines the dimensions and aimed/intended data quality levels in defined unit. 
-* Executable part contains the machine-readable "as code" rules to validate data quality dimensions. The code inside _spec_ element is intended to be injected as in supporting data quality platforms in their defined format and structure.  
+This structure ensures that both expectations and enforcement logic are documented and machine-actionable in the same place.
 
-The QA object is general in nature and should be enough for common (80%) use cases. Note that you can make extensions to the standard with "x-" mechanism in order to fulfill any industry specific needs. The ["Specification extensions"](#specification-extensions) section provides details on how to use this feature. 
+## Referencing Capability
+One of the key features of ODPS is the ability to **reuse** named data quality profiles via references. For example, quality profiles such as `default`, `premium`, or `gold` can be defined once under `dataQuality.declarative` and referenced elsewhere in the YAML—such as in SLA definitions, pricing plans, or tiered service offerings.
+
+**Benefits of Referencing:**
+
+- **DRY Principle**: Avoid repetition. Define once, reference many times.
+- **Clarity**: Consumers of your data product can easily see which quality profile is associated with a particular service tier or access plan.
+- **Scalability**: You can support multiple audiences or markets with varying quality expectations.
+- **Auditability**: Clearly link machine-readable checks to business commitments.
+
+> referencing examples:
+
+```yml
+  $ref: '#/product/dataQuality/declarative/default'
+
+  ...
+
+  $ref: '#/product/dataQuality/declarative/premium'
+```
+
+**Referencing Examples:**
+To reference a defined quality profile from another part of your YAML (e.g., pricing plan): `$ref: '#/product/dataQuality/declarative/default'`. Or reference a named premium quality package: `$ref: '#/product/dataQuality/declarative/premium'` Use this component to clearly communicate both intentions and verifiable guarantees about data quality—whether you're reporting to stakeholders, building trust with customers, or enabling automated validation through modern DQ tools. 
+
+
+**The Role of `default`**
+
+The `default` quality profile is **mandatory** whenever the `dataQuality` object is used. It acts as the **baseline** definition, ensuring there is always a clear and predictable quality configuration, even when no referencing is used.
+
+You should use the `default` profile when:
+
+- You want to describe core quality expectations for the product.
+- You don’t yet need pricing or SLA-specific variations.
+- You want to ensure future compatibility with advanced features such as AI agents, data marketplaces, or automated governance.
+
+This makes the `default` profile both a **minimum requirement** and a **best practice** for clarity and interoperability.
+
+The QA object is general in nature and should be enough for common (80%) use cases. You can make extensions to the standard with "x-" mechanism in order to fulfill 
+any industry specific needs. 
 
 ## ODPS offers 8 standardized options to define and measure data quality with Everything as Code monitoring 
-
-
 
 | <div style="width:150px">Data Quality Dimension</div>   | Description | 
 |---|---|
@@ -74,8 +91,6 @@ The QA object is general in nature and should be enough for common (80%) use cas
 | **uniqueness** | Uniqueness means each record and attribute should be one-of-a-kind, aiming for a single, unique data entry |
 
 
-Data integrity is the maintenance of, and the assurance of, data accuracy and consistency over its entire life-cycle. That is why *integrity* is not in the attributes, but accuracy and consistency as well as completeness are. 
-  
 
 ## Optional attributes and elements
 
@@ -84,26 +99,51 @@ Data integrity is the maintenance of, and the assurance of, data accuracy and co
 ```yml
 dataQuality:
   declarative:
-    - dimension: accuracy
-      displaytitle:
-      - en: Data Accuracy (percent)
-      - fi: Datan virheettömyys (prosenttia)
-    description:
-      - en: >-
-          Data Accuracy ensures the data product reflects the real-world
-          entities or events it represents, minimizing errors and providing
-          reliable insights.
-      - fi: >-
-          Datatuotteen tarkkuus varmistaa, että se heijastaa todellisia
-          kohteita tai tapahtumia, vähentää virheitä ja tarjoaa luotettavaa
-          tietoa.
-    objective: 98
-    unit: percentage
-  - dimension: completeness
-    displaytitle:
-      - en: Data Completeness (percent)
-        objective: 90
-        unit: percentage
+    default:
+      displaytitle: 
+        en: The Basic Data Quality
+      description: 
+        en: The basic quality package
+      dimensions:
+        - dimension: accuracy
+          displaytitle:
+            en: Data Accuracy (percent)
+          description:
+            en: >
+              Data Accuracy ensures the data product reflects the real-world
+              entities or events it represents, minimizing errors and providing
+              reliable insights.
+          objective: 90
+          unit: percentage
+        - dimension: completeness
+          displaytitle:
+            - en: Data Completeness (percent)
+          objective: 90
+          unit: percentage
+
+
+    premium:
+      displaytitle: 
+        en: The Premium Data Quality
+      description: 
+        en: The Preimum quality package
+      dimensions:
+        - dimension: accuracy
+          displaytitle:
+            en: Data Accuracy (percent)
+          description:
+            en: >
+              Data Accuracy ensures the data product reflects the real-world
+              entities or events it represents, minimizing errors and providing
+              reliable insights.
+          objective: 98
+          unit: percentage
+        - dimension: completeness
+          displaytitle:
+            en: Data Completeness (percent)
+          objective: 99
+          unit: percentage
+
   executable:
     - dimension: accuracy
       type: SodaCL
@@ -128,22 +168,46 @@ dataQuality:
                   fatal: 
                     max_percent: 11.0      
 ```
+> Example of DQ external profiles usage:
+
+```yml
+
+dataQuality: # the below file contains the same content as above
+  $ref: 'https://example.org/DQ/all-packages.yaml'
+
+```
+
+> Example of DQ external profiles for each profile usage:
+
+```yml
+
+dataQuality:
+  declarative:
+    default:
+      $ref: 'https://example.org/DQ/basic.yaml'
+    premium:
+      $ref: 'https://example.org/DQ/premium.yaml'
+```
+
 
 | <div style="width:150px">Element name</div>   | Type  | Options  | Description  |
 |---|---|---|---|
-| **dataQuality** | element | - | Contains array of data quality dimensions with optional computational monotoring object. Under this element Data quality is divided into declarative and executable parts. |
-**declarative** | element | - | Grouping element which collects together data quality dimensions target level (objectives), name to display in UI in wanted languages, measuring unit used, and dimension name (one of standardized options).  |
-| **dimension** | attribute | string, one of: *accuracy, completeness, conformity, consistency, coverage, timeliness, validity, or uniqueness.* | Defines the data quality dimension.  |
+| **dataQuality** | element | - | Contains array of data quality dimensions with optional computational monitoring object. Under this element Data Quality is divided into declarative and executable parts. |
+| **$ref** | filepath or valid URL | - | Define the Data quality profiles in external file for reuse purposes, example  `$ref: 'https://example.org/DQ/all-packages.yaml'` See example. This makes it easy to keep related profiles (e.g. default, premium, gold) together, apply versioning and validation once, and publish all variants from a single repo or source. <br/><br/>The same pattern can be used in individual data quality profiles instead of doing it inline. See example. This gives finer control if each Data quality is owned or updated by a different team, but increases the number of files to track and host.|
+| **default** | object | - | This object must always be present and named exactly `default` if dataQuality object is used. It acts as the fallback or primary data quality profile. <br/><br/>Users are free to define additional named profiles such as `premium`, `gold`, etc., in parallel to the default. <br/><br/>In the example, `default` and `premium` are both included. These variants can be referred to from other components like pricing plans. <br/><br/>**Example reference usage:** <br/> `dataQuality: $ref: '#/product/dataQuality/declarative/default'` |
+| **dimension** | attribute | string, one of: *accuracy, completeness, conformity, consistency, coverage, timeliness, validity, or uniqueness.* | Defines the data quality dimension. |
 | **objective** | attribute | integer | Defines the target value for the data quality dimension |
 | **unit** | attribute | string. One of: *percentage, number* | Defines the unit used in stating the target quality level. |
-| **executable** | element | - | Grouping element which collects together data quality monitoring. You can define the monitoring patterns as code under this element for the above mentioned data quality dimensions. In other words, contains the monitoring (computational "as code") structure to validate target state for the selected data quality dimension. The actual as code part is added with _spec_ element. |
-| **displayTitle** | array| - | Dimension title to be shown is various UIs. Array contains array list of titles in desired amount of languages. |
-| **en** | attribute | [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) defined 2-letter codes | This element binds together other product attributes and expresses the langugage used. In the example this is "en", which indicates that product details are in English. If you would like to use French details, then name the element "fr". The naming of this element follows options (language codes) listed in [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) standard. <br/><br/> You can have product details in multiple languages simply by adding similar sets like the example - just change the binding element name to matching language code. <br/><br/> The pattern to implement multilanguage support for data products was adopted from de facto UI translation practices. The attributes inside this element are commonly rendered in the UI for the consumer and providing a simple way to implement that was the driving reasoning. See for example  [JSON - Multi Language](https://simplelocalize.io/docs/file-formats/multi-language-json/) |
-| **description** | array | - | Describe the dimension so that it can be used for example in info boxes in UI. | Array contains array list of titles in desired amount of languages.
-| **type** | attribute | string, one of: [SodaCL](https://docs.soda.io/soda-cl/soda-cl-overview.html), [Montecarlo](https://docs.getmontecarlo.com/docs/monitors-as-code), [DQOps](https://dqops.com/docs/categories-of-data-quality-checks/), Custom | DAta Quality Monitoring as code system name. Use one of the predefined options only. With _Custom_ type you can use your in-house solution. |
+| **executable** | element | - | Grouping element that collects together data quality monitoring rules. You can define monitoring patterns as code under this element for each dimension. The actual as-code part is defined in the `spec` element. |
+| **displaytitle** | array | - | Dimension title to be shown in various UIs. Array contains title(s) in desired language(s). |
+| **en** | attribute | [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) defined 2-letter codes | Binds the text elements together in a given language. Multilanguage support is implemented by duplicating content under other ISO language codes. |
+| **description** | array | - | Describe the dimension so that it can be used for example in info boxes in UI. Array contains descriptions in desired language(s). |
+| **type** | attribute | string, one of: [SodaCL](https://docs.soda.io/soda-cl/soda-cl-overview.html), [Montecarlo](https://docs.getmontecarlo.com/docs/monitors-as-code), [DQOps](https://dqops.com/docs/categories-of-data-quality-checks/), Custom | Data Quality Monitoring as code system name. Use one of the predefined options only. With _Custom_ type you can use your in-house solution. |
 | **version** | attribute | string | The version of DQ monitoring tool used. |
-| **reference** | URL | Valid URL | Provide URL pointing to the reference documentation |
-| **spec** | element | YAML/URL/string | The content the as code part for Data Quality monitoring. Content is intended to be in a form that can be injected as is to _type_ defined monitoring system. Content depends of the system used and reference attribute is expected to provide more information. <br/><br/> **Note!** By default the rules must be provide as valid YAML, either as inline element (YAML) or as valid URL (filesystem or online) pointing to valid YAML content file. String content is allowed and used only if _type_ attribute value is _Custom_. In the custom case your string of course can be YAML too. |
+| **reference** | URL | Valid URL | Provide URL pointing to the reference documentation. |
+| **spec** | element | YAML/URL/string | The content for Data Quality monitoring expressed as code. Accepted as inline YAML, a valid URL pointing to YAML, or a plain string if `type` is `Custom`. |
 
 
 If you see something missing, described inaccurately or plain wrong, or you want to comment the specification, [raise an issue in Github](https://github.com/Open-Data-Product-Initiative/dev/issues)
+
+Or join the [ODPS Discord](https://discord.gg/7KfnFxAc) to discuss the ideas and your needs! 

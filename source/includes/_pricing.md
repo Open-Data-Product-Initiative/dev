@@ -18,6 +18,15 @@ pricingPlans:
     billingDuration: month
 ```
 
+
+**Standardized data pricing plans are crucial for transparency, scalability, and customer trust.** They ensure that customers can easily understand and compare costs, fostering trust and reducing disputes. For providers, standardized pricing streamlines operations, supports scalability, and simplifies market comparison, allowing for effective competitive positioning. Additionally, it aids in better financial planning and forecasting for both the provider and the customer, ensuring predictable revenue and informed decision-making. Overall, standardized pricing is essential for the sustainable growth and success of data products.
+
+Pricing is the process whereby a business sets the price at which it will sell its products and services. Pricing **OBJECT** contains pricing plans related metadata to be used for example in displaying the items in a marketplace. If needed the standard metadata is converted to marketplace internal format. We encourage all data product owners to enforce usage of this standard to foster global interoperability.  
+
+The 12 pricing plans enabled by ODPS are meticulously defined through an in-depth analysis of pricing models applied across more than 300 data products. We continuously monitor the evolution of pricing plans in the data economy, striving to provide the most comprehensive and up-to-date list of standardized pricing options - yet some gaps might exist.
+
+The Pricing object is general in nature and should be enough for common (80%) use cases. You can make extensions to the standard with "x-" mechanism in order to fulfill any industry specific needs. The ["Specification extensions"](#specification-extensions) section provides details on how to use this feature. 
+
 > In case standardized options are not enough:
 
 ```yml
@@ -42,15 +51,27 @@ pricingPlans:
     billingDuration: year
     
 ```
-**Standardized data pricing plans are crucial for transparency, scalability, and customer trust.** They ensure that customers can easily understand and compare costs, fostering trust and reducing disputes. For providers, standardized pricing streamlines operations, supports scalability, and simplifies market comparison, allowing for effective competitive positioning. Additionally, it aids in better financial planning and forecasting for both the provider and the customer, ensuring predictable revenue and informed decision-making. Overall, standardized pricing is essential for the sustainable growth and success of data products.
 
-Pricing is the process whereby a business sets the price at which it will sell its products and services. Pricing **OBJECT** contains pricing plans related metadata to be used for example in displaying the items in a marketplace. If needed the standard metadata is converted to marketplace internal format. We encourage all data product owners to enforce usage of this standard to foster global interoperability.  
+**Referencing Capability in Pricing Plans** 
 
-The 12 pricing plans enabled by ODPS are meticulously defined through an in-depth analysis of pricing models applied across more than 300 data products. We continuously monitor the evolution of pricing plans in the data economy, striving to provide the most comprehensive and up-to-date list of standardized pricing options - yet some gaps might exist.
+ODPS 4.0 introduces a modular referencing system that allows pricing plans to reuse pre-defined components such as data quality profiles, SLA tiers, access methods, and payment gateways. This makes it easy to maintain consistency across multiple data products, reduces duplication, and enables scalable pricing design. Why Use Referencing?
 
-The Pricing object is general in nature and should be enough for common (80%) use cases. You can make extensions to the standard with "x-" mechanism in order to fulfill any industry specific needs. The ["Specification extensions"](#specification-extensions) section provides details on how to use this feature. 
+- **DRY Principle**: Define components once, reference them across products.
+- **Modularity**: Maintain separate, reusable blocks for SLA, DQ, access, and payment.
+- **Flexibility**: Switch plans or upgrade tiers by simply changing references.
+- **Auditability**: Easily trace the source of configurations in machine-readable format.
 
-**This version introduces the "Pricing Plans as Code" feature.** You can define the necessary actions (CRUP) to set up and use the selected payment gateway, initiating the purchase process. **CRUP** stands for: 
+**Example Component Reference Paths**
+
+* SLA: `#/product/SLA/gold` references gold SLA profile in the SLA component
+* Data Quality: `#/product/dataQuality/default` references default data quality profile in the data quality component
+* Access: `#/product/dataAccess/download` references download access profile in the SLA component
+* Payment Gateway: `#/product/paymentGateways/paypal` references paypal payment profile in the Payment Gateways component
+
+In each of these component groups, you can expect a `default` option to be defined. This default serves as a baseline configuration, ensuring that even when no custom profile is referenced, a reliable and predictable fallback exists. For example, dataQuality.default, SLA.default, and paymentGateways.default can all be used to provide minimum guarantees. 
+
+
+**Includes the "Pricing Plans as Code" feature.** You can define the necessary actions (CRUP) to set up and use the selected payment gateway, initiating the purchase process. **CRUP** stands for: 
 
 - **C**reate (create pricing plan), 
 - **R**etire (delete pricing plan), 
@@ -96,40 +117,66 @@ The _unit_ attribute defines the plan and options for that are fixed unless exte
 pricingPlans:
   declarative:
     en:
-    - name: Premium subscription 1 month
-      priceCurrency: EUR
-      price: 50.00
-      billingDuration: month
-      unit: recurring
-      maxTransactionQuantity: 200000
-      offering:
-        - High Quality Pets data
-        - High amount of transactions
-        - Billed monthly 
-  executable:
-      type: Stripe 
-      version: 1.2
-      reference: https://docs.stripe.com/cli
-      create:
-        spec: |- 
-          stripe products create  \
-          --name="Premium subscription 1 year"
+      - name: Standard API subscription 1 month
+        priceCurrency: EUR
+        price: 50
+        billingDuration: month
+        unit: recurring
+        maxTransactionQuantity: 200000
+        offering:
+          - High Quality Events data
+          - High amount of transactions
+          - Billed monthly
+        paymentGateway:
+          $ref: '#/product/paymentGateways/default'
+        dataQuality:
+          $ref: '#/product/dataQuality/declarative/default'
+        SLA:
+          $ref: '#/product/SLA/declarative/default'
+        access:
+          $ref: '#/product/dataAccess/API'
+      - name: Premium MCP 1 month
+        priceCurrency: EUR
+        price: 500
+        billingDuration: month
+        unit: recurring
+        maxTransactionQuantity: 0
+        offering:
+          - High Quality Events data
+          - High amount of transactions
+          - Billed monthly
+        paymentGateway:
+          $ref: '#/product/paymentGateways/agent'
+        dataQuality:
+          $ref: '#/product/dataQuality/premium'
+        SLA:
+          $ref: '#/product/SLA/premium'
+        access:
+          $ref: '#/product/dataAccess/agent'
           
-          stripe prices create  \
-          --currency=eur \
-          --unit-amount=50 \
-          -d "recurring[interval]"=month \
-          -d "product_data[name]"="Premium subscription 1 year"
+  executable:
+    - name: Premium subscription 1 year
+      type: Stripe
+      reference: urls to Stripe docs
+      create:
+        spec:
+          - cmd: stripe products create  \
+            params: '--name="Premium subscription 1 year"'
+          - cmd: stripe prices create  \
+            params: '--currency=eur --unit-amount=50 -d "recurring[interval]"=month -d "product_data[name]"="Premium subscription 1 year"'
+      read:
+        spec:
+          - cmd: stripe products get  \
+            params: '--name="Premium subscription 1 year"'
       update:
-        spec: |- 
-          # update plan as Stripe requires
-      retire:
-        spec: |- 
-          # delete of the plan as Stripe requires
-      purchase:
-        spec: |- 
-          # generate or get the link in order to 
-          # provide method for client to ignite purchase process  
+        spec:
+          - cmd: stripe products update  \
+            params: '--name="Premium subscription 1 year"'
+      delete:
+        spec:
+          - cmd: stripe products delete  \
+            params: '--name="Premium subscription 1 year"'
+  
 
 ```
 
@@ -153,6 +200,11 @@ pricingPlans:
 | **additionalPrice**  | string  | -  | This is used to define fees for usage which exceeds the defined max transaction quantity. This value is for each additional transaction. Use '.' (Unicode 'FULL STOP' (U+002E)) rather than ',' to indicate a decimal point. Avoid using these symbols as a readability separator. Use values from 0123456789 (Unicode 'DIGIT ZERO' (U+0030) to 'DIGIT NINE' (U+0039)) rather than superficially similiar Unicode symbols. |
 |  **maxDataQuantity** | Integer  | -  | The maximum amount of data transferred during the billing duration. Unit is GB. |
 |  **valueSimulator**  | url | valid url | Intended to be used with *value-based* pricing plan. Provide url to value simulator in which customer can see the value in various cases. In the simulator customer might be able to input own variables to match their exact case and see the gained value. |
+| **notes** | string | - | Optional free-text explanatory note associated with the pricing plan. Often used for disclaimers, internal remarks, or elaborating on intent.  |
+| **paymentGateway** | reference | path to paymentGateways | Reference to an available payment gateway definition under #/product/paymentGateways/... More details in [Knowledge Base](https://opendataproducts.org/howto/) |
+| **dataQuality** | reference | path to dataQuality | Reference to a defined data quality package from #/product/dataQuality/... More details in [Knowledge Base](https://opendataproducts.org/howto/) |
+| **SLA** | reference | path to SLA | Reference to a defined SLA specification under #/product/SLA/... More details in [Knowledge Base](https://opendataproducts.org/howto/)|
+| **access** | reference | path to dataAccess | Reference to a data access method under #/product/dataAccess/... More details in [Knowledge Base](https://opendataproducts.org/howto/)|
 | **executable** | element | - | Grouping element which collects together pricing plans payment gateway management features. You can define the needed action (CRUP) to setup and use the gateway to ignite purchase process. <br/><br/> CRUP stands for: **C**reate, **R**etire, **U**pdate, and **Purchase**.  The actual as code part is added with _spec_ element. |
 | **type** | attribute | string, one of: _Stripe_, _Checkout_, _Custom_ | Payment gateway system name. Use one of the predefined options only. With _Custom_ type you can use your in-house solution. |
 | **version** | attribute | string | The version of the payment gateway tool used. |
@@ -164,3 +216,6 @@ pricingPlans:
 | **spec** | element | YAML/URL/string | The content the as code part for the pricing plan. Content is intended to be in a form that can be injected as is to _type_ defined payment gateway system. Content depends of the system used and reference attribute is expected to provide more information. <br/><br/> **Note!** By default the rules must be provide as valid YAML, either as inline element (YAML) or as valid URL (filesystem or online) pointing to valid YAML content file. String content is allowed and used only if _type_ attribute value is _Custom_. In the custom case your string of course can be YAML too. |
 
 If you see something missing, described inaccurately or plain wrong, or you want to comment the specification, [raise an issue in Github](https://github.com/Open-Data-Product-Initiative/dev/issues)
+
+
+Join the [ODPS Discord](https://discord.gg/7KfnFxAc) to discuss the ideas and your needs! 
