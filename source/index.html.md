@@ -57,8 +57,6 @@ Development of the specification is under the umbrella of the Linux Foundation.
 * <a href="https://www.linkedin.com/in/jarkkomoilanen/">Jarkko Moilanen</a>
 * <a href="https://www.linkedin.com/in/manfred-sorg/">Manfred Sorg</a>
 
-
-
 **Participate:**
 
 * [Raise an issue in Github](https://github.com/Open-Data-Product-Initiative/dev/issues)
