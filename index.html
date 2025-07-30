@@ -901,29 +901,6 @@ Development of the specification is under the umbrella of the Linux Foundation. 
 
 <p>If you see something missing, described inaccurately or plain wrong, or you want to comment the specification, <a href="https://github.com/Open-Data-Product-Initiative/dev/issues">raise an issue in Github</a></p>
 <h1 id='data-product-strategy'>Data Product Strategy</h1>
-<blockquote>
-<p>Example of product strategy and KPIs usage:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight yaml"><code><span class="na">version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">1.0"</span>
-<span class="na">product</span><span class="pi">:</span>
-  <span class="na">productStrategy</span><span class="pi">:</span>
-    <span class="na">objectives</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="na">en</span><span class="pi">:</span> <span class="s">Reduce emergency response time</span>
-    <span class="na">kpis</span><span class="pi">:</span>
-      <span class="na">coverage</span><span class="pi">:</span>
-        <span class="na">name</span><span class="pi">:</span> <span class="s">Event Detection Coverage</span>
-        <span class="na">description</span><span class="pi">:</span> <span class="s">Percentage of city-reported events captured in real time</span>
-        <span class="na">objective</span><span class="pi">:</span> <span class="s">95%</span>
-        <span class="na">unit</span><span class="pi">:</span> <span class="s">percentage</span>
-
-      <span class="na">time-to-insight</span><span class="pi">:</span>
-        <span class="na">name</span><span class="pi">:</span> <span class="s">Average Time to Insight</span>
-        <span class="na">description</span><span class="pi">:</span> <span class="s">Median time between event occurrence and product update</span>
-        <span class="na">objective</span><span class="pi">:</span> <span class="s">&lt; 60 seconds</span>
-        <span class="na">unit</span><span class="pi">:</span> <span class="s">seconds</span>
-    <span class="na">strategicAlignment</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="na">en</span><span class="pi">:</span> <span class="s">Smart City Vision </span><span class="m">2030</span>
-</code></pre></div>
 <p>The <code>productStrategy</code> object captures the business intent behind a data product, enabling alignment between product specifications and organizational goals. It defines the objectives, success metrics (<code>KPIs</code>), and strategic alignment relevant to the product. This metadata can be used to trace value creation, measure performance, and communicate the product’s purpose to internal stakeholders, external consumers, and AI agents.</p>
 
 <p>By embedding business logic directly into the product specification, <code>productStrateg</code>y helps ensure that data products are not only technically sound but also strategically impactful.</p>
@@ -986,6 +963,29 @@ Development of the specification is under the umbrella of the Linux Foundation. 
 </tr>
 </tbody></table>
 
+<blockquote>
+<p>Example of product strategy and KPIs usage:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight yaml"><code><span class="na">version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">1.0"</span>
+<span class="na">product</span><span class="pi">:</span>
+  <span class="na">productStrategy</span><span class="pi">:</span>
+    <span class="na">objectives</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">en</span><span class="pi">:</span> <span class="s">Reduce emergency response time</span>
+    <span class="na">kpis</span><span class="pi">:</span>
+      <span class="na">coverage</span><span class="pi">:</span>
+        <span class="na">name</span><span class="pi">:</span> <span class="s">Event Detection Coverage</span>
+        <span class="na">description</span><span class="pi">:</span> <span class="s">Percentage of city-reported events captured in real time</span>
+        <span class="na">objective</span><span class="pi">:</span> <span class="s">95%</span>
+        <span class="na">unit</span><span class="pi">:</span> <span class="s">percentage</span>
+
+      <span class="na">time-to-insight</span><span class="pi">:</span>
+        <span class="na">name</span><span class="pi">:</span> <span class="s">Average Time to Insight</span>
+        <span class="na">description</span><span class="pi">:</span> <span class="s">Median time between event occurrence and product update</span>
+        <span class="na">objective</span><span class="pi">:</span> <span class="s">&lt; 60 seconds</span>
+        <span class="na">unit</span><span class="pi">:</span> <span class="s">seconds</span>
+    <span class="na">strategicAlignment</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">en</span><span class="pi">:</span> <span class="s">Smart City Vision </span><span class="m">2030</span>
+</code></pre></div>
 <p>Bring your ideas, questions, and use cases — <a href="https://discord.gg/7KfnFxAc">join the ODPS Discord</a> and get involved!</p>
 <h1 id='data-contract'>Data Contract</h1>
 <p>The <code>contract</code> object in the ODPS schema defines the structure for linking a data product to a formal data contract. It includes an <code>id</code> as a unique identifier, a <code>type</code> field that specifies the contract standard (either ODCS or DCS), a <code>contractVersion</code> indicating the version of the standard, and a <code>contractURL</code> that points to an external contract document in a contract management service. Optionally, an inline YAML spec element can be used instead of a URL to embed the contract directly in the product file. These specifications allow data producers to clearly declare governance, usage rights, and technical expectations, supporting interoperability across platforms using standards such as the Open Data Contract Standard (ODCS) or the Data Contract Specification (DCS). More details in the <a href="https://opendataproducts.org/howto/">Knowledge Base</a>.</p>
