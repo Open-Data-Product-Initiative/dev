@@ -5,6 +5,8 @@ The `productStrategy` object captures the business intent behind a data product,
 
 By embedding business logic directly into the product specification, `productStrateg`y helps ensure that data products are not only technically sound but also strategically impactful.
 
+
+## Optional attributes and elements
 > Example of product strategy and KPIs usage:
 
 ```yml
@@ -28,8 +30,6 @@ product:
     strategicAlignment:
       - en: Smart City Vision 2030
 ```
-## Optional attributes and elements
-
 
 
 | <div style="width:180px">Element name</div> | Type             | Options                  | Description                                                                 |
