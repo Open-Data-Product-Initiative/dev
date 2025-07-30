@@ -10,7 +10,8 @@ By embedding business logic directly into the product specification, `productStr
 > Example of product strategy and KPIs usage:
 
 ```yml
-version: "1.0"
+schema: https://opendataproducts.org/dev/schema/odps.yaml
+version: 4.0
 product:
   productStrategy:
     objectives:
