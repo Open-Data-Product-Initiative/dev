@@ -7,6 +7,19 @@ By embedding business logic directly into the product specification, `productStr
 
 ## Optional attributes and elements
 
+
+
+| <div style="width:180px">Element name</div> | Type             | Options                  | Description                                                                 |
+|--------------------------------------------|------------------|--------------------------|-----------------------------------------------------------------------------|
+| **productStrategy**                        | object           | -                        | Top-level block that connects the data product to business goals and KPIs  |
+| **objectives**             | array of objects | language-tagged strings  | Business objectives the product supports, written in natural language       |
+| **kpis**                   | array            | `$ref` or inline object  | Key performance indicators that define success for this product             |
+| **name**              | string           | -                        | Name of the KPI                                                             |
+| **description**       | string           | -                        | Human-readable description of the KPI                                       |
+| **unit**              | string           | e.g., `percentage`, `s`  | Unit of measurement for the KPI                                             |
+| **objective**            | string/number    | -                        | Target value to be achieved                                                 |
+| **strategicAlignment**     | array            | language-tagged strings  | Strategic initiatives, policies, or visions the product aligns with         |
+ 
 > Example of product strategy and KPIs usage:
 
 ```yml
@@ -30,18 +43,5 @@ product:
     strategicAlignment:
       - en: Smart City Vision 2030
 ```
-
-| <div style="width:180px">Element name</div> | Type             | Options                  | Description                                                                 |
-|--------------------------------------------|------------------|--------------------------|-----------------------------------------------------------------------------|
-| **productStrategy**                        | object           | -                        | Top-level block that connects the data product to business goals and KPIs  |
-| **objectives**             | array of objects | language-tagged strings  | Business objectives the product supports, written in natural language       |
-| **kpis**                   | array            | `$ref` or inline object  | Key performance indicators that define success for this product             |
-| **name**              | string           | -                        | Name of the KPI                                                             |
-| **description**       | string           | -                        | Human-readable description of the KPI                                       |
-| **unit**              | string           | e.g., `percentage`, `s`  | Unit of measurement for the KPI                                             |
-| **objective**            | string/number    | -                        | Target value to be achieved                                                 |
-| **strategicAlignment**     | array            | language-tagged strings  | Strategic initiatives, policies, or visions the product aligns with         |
- 
-
 
 Bring your ideas, questions, and use cases — [join the ODPS Discord](https://discord.gg/7KfnFxAc) and get involved!
