@@ -3,7 +3,7 @@
 
 The `productStrategy` object captures the business intent behind a data product, enabling alignment between product specifications and organizational goals. It defines the objectives, success metrics (`KPIs`), and strategic alignment relevant to the product. This metadata can be used to trace value creation, measure performance, and communicate the product’s purpose to internal stakeholders, external consumers, and AI agents.
 
-By embedding business logic directly into the product specification, `productStrateg`y helps ensure that data products are not only technically sound but also strategically impactful.
+By embedding business logic directly into the product specification, `productStrategy` helps ensure that data products are not only technically sound but also strategically impactful.
 
 
 ## Optional attributes and elements
