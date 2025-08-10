@@ -1,13 +1,10 @@
 # Data Product Strategy
 
+The `productStrategy` object captures the business intent behind a data product and **links it to a single higher‑level business KPI** it contributes to. It defines the objectives, the primary KPI at the business level, and the **product‑level KPIs** that indicate contribution. This makes value traceable, performance measurable, and governance lightweight.
 
-The `productStrategy` object captures the business intent behind a data product, enabling alignment between product specifications and organizational goals. It defines the objectives, success metrics (`KPIs`), and strategic alignment relevant to the product. This metadata can be used to trace value creation, measure performance, and communicate the product’s purpose to internal stakeholders, external consumers, and AI agents.
+By embedding business logic directly into the product specification, `productStrategy` ensures data products are not only technically sound but also strategically impactful.
 
-By embedding business logic directly into the product specification, `productStrategy` helps ensure that data products are not only technically sound but also strategically impactful.
-
-
-## Optional attributes and elements
-> Example of product strategy and KPIs usage:
+## Example
 
 ```yml
 schema: https://opendataproducts.org/dev/schema/odps.yaml
@@ -16,34 +13,87 @@ product:
   productStrategy:
     objectives:
       - en: Reduce emergency response time
-    kpis:
-      coverage:
-        name: Event Detection Coverage
-        description: Percentage of city-reported events captured in real time
-        objective: 95%
-        unit: percentage
 
-      time-to-insight:
+    contributesToKPI:
+      id: bizkpi-city-response-time
+      name: City Emergency Response Time
+      description: Average minutes from incident to first responder arrival
+      unit: minutes
+      target: 5
+      direction: at_most
+      timeframe: "by Q4"
+
+    productKPIs:
+      - id: kpi-detection-coverage
+        name: Event Detection Coverage
+        definition: % of reported incidents captured in real time
+        unit: percentage
+        target: 95
+        direction: at_least
+        frequency: hourly
+        calculation: detected_events / reported_events
+
+      - id: kpi-time-to-insight
         name: Average Time to Insight
-        description: Median time between event occurrence and product update
-        objective: < 60 seconds
+        definition: Median time from event occurrence to product update
         unit: seconds
+        target: 60
+        direction: at_most
+        calculation: p50(update_ts - event_ts)
+
+    relatedKPIs:
+      - id: bizkpi-traffic-congestion
+        name: Traffic Congestion Index
+        unit: percentage
+        target: -10
+        direction: decrease
+
     strategicAlignment:
       - en: Smart City Vision 2030
 ```
 
+## Attributes
 
-| <div style="width:180px">Element name</div> | Type             | Options                  | Description                                                                 |
-|--------------------------------------------|------------------|--------------------------|-----------------------------------------------------------------------------|
-| **productStrategy**                        | object           | -                        | Top-level block that connects the data product to business goals and KPIs  |
-| **objectives**             | array of objects | language-tagged strings  | Business objectives the product supports, written in natural language       |
-| **kpis**                   | array            | `$ref` or inline object  | Key performance indicators that define success for this product             |
-| **name**              | string           | -                        | Name of the KPI                                                             |
-| **description**       | string           | -                        | Human-readable description of the KPI                                       |
-| **unit**              | string           | e.g., `percentage`, `s`  | Unit of measurement for the KPI                                             |
-| **objective**            | string/number    | -                        | Target value to be achieved                                                 |
-| **strategicAlignment**     | array            | language-tagged strings  | Strategic initiatives, policies, or visions the product aligns with         |
- 
+| Element | Type | Options | Description |
+|---|---|---|---|
+| **productStrategy** | object | – | Top‑level block that connects the data product to business goals and KPIs. |
+| **objectives** | array of objects | language‑tagged strings | Business objectives the product supports, written in natural language. |
+| **contributesToKPI** | object | required | **Single higher‑level business KPI** (from SMART objectives) that this product is accountable for. |
+| **id** | string | optional | Identifier of the business KPI (use shared IDs for roll‑ups). |
+| **name** | string | required | KPI name. |
+| **description** | string | optional | Human‑readable description. |
+| **unit** | string | e.g., `percentage`, `minutes`, `s` | Unit of measurement. |
+| **target** | number/string | – | Target value for the KPI. |
+| **direction** | enum | `increase`, `decrease`, `at_least`, `at_most`, `equals` | Desired direction of movement. |
+| **timeframe** | string | optional | When the target should be met. |
+| **productKPIs** | array | optional | KPIs measured **at product level** that influence `contributesToKPI`. Useful for contribution analysis and governance checks. |
+| **relatedKPIs** | array | optional | Secondary/cross‑unit KPIs to monitor side‑effects and additional value (informational; not for prioritization). |
+| **strategicAlignment** | array | language‑tagged strings | Strategic initiatives, policies, or visions the product aligns with. |
 
+### KPI object (for `productKPIs` / `relatedKPIs`)
+| Field | Type | Description |
+|---|---|---|
+| `id` | string | Identifier (recommended for cross‑product roll‑ups). |
+| `name` | string | KPI name. |
+| `definition` | string | What exactly is measured. |
+| `unit` | string | Unit of measurement. |
+| `target` | number/string | Target value. |
+| `direction` | enum | `increase`, `decrease`, `at_least`, `at_most`, `equals`. |
+| `timeframe` | string | Optional deadline for the target. |
+| `frequency` | string | Measurement cadence (e.g., hourly, daily, monthly). |
+| `owner` | string | Responsible role/team (optional). |
+| `dataSource` | string | Where the KPI is computed (optional). |
+| `calculation` | string | Human‑readable formula (optional). |
+
+
+
+## Governance‑by‑Design checks (Minimum Lovable Gates)
+
+- **Required:** `contributesToKPI.name` present.  
+- **Recommended:** ≥1 `productKPIs` with `unit`, `target`, and `calculation`.  
+- **Optional:** `relatedKPIs` for secondary/side effects.  
+- **Traceability:** use shared KPI `id`s to enable cross‑product roll‑ups against the same business KPI.
+
+---
 
 Bring your ideas, questions, and use cases — [join the ODPS Discord](https://discord.gg/7KfnFxAc) and get involved!
