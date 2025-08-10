@@ -3,6 +3,7 @@
 The `productStrategy` object captures the business intent behind a data product and links it to a **single higher-level business KPI** it is primarily accountable for. It defines the objectives, the primary KPI at the business level, and the **product-level KPIs** that measure its direct contribution.
 
 Optionally, it can also include **related KPIs** — secondary or cross-unit measures that:
+
 1. **Capture additional value** — show extra benefits beyond the main KPI, useful for demonstrating broader impact.
 2. **Track side effects** — monitor unintended positive or negative impacts on other KPIs.
 3. **Highlight cross-department value** — reveal benefits for other business units, strengthening prioritization and funding cases.
