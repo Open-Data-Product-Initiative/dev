@@ -375,7 +375,13 @@
             <a href="#data-product-strategy" class="toc-h1 toc-link" data-title="Data Product Strategy">Data Product Strategy</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#optional-attributes-and-elements" class="toc-h2 toc-link" data-title="Optional attributes and elements">Optional attributes and elements</a>
+                    <a href="#example" class="toc-h2 toc-link" data-title="Example">Example</a>
+                  </li>
+                  <li>
+                    <a href="#attributes" class="toc-h2 toc-link" data-title="Attributes">Attributes</a>
+                  </li>
+                  <li>
+                    <a href="#governance-by-design-checks-minimum-lovable-gates" class="toc-h2 toc-link" data-title="Governance‑by‑Design checks (Minimum Lovable Gates)">Governance‑by‑Design checks (Minimum Lovable Gates)</a>
                   </li>
               </ul>
           </li>
@@ -901,37 +907,56 @@ Development of the specification is under the umbrella of the Linux Foundation. 
 
 <p>If you see something missing, described inaccurately or plain wrong, or you want to comment the specification, <a href="https://github.com/Open-Data-Product-Initiative/dev/issues">raise an issue in Github</a></p>
 <h1 id='data-product-strategy'>Data Product Strategy</h1>
-<p>The <code>productStrategy</code> object captures the business intent behind a data product, enabling alignment between product specifications and organizational goals. It defines the objectives, success metrics (<code>KPIs</code>), and strategic alignment relevant to the product. This metadata can be used to trace value creation, measure performance, and communicate the product’s purpose to internal stakeholders, external consumers, and AI agents.</p>
+<p>The <code>productStrategy</code> object captures the business intent behind a data product and <strong>links it to a single higher‑level business KPI</strong> it contributes to. It defines the objectives, the primary KPI at the business level, and the <strong>product‑level KPIs</strong> that indicate contribution. This makes value traceable, performance measurable, and governance lightweight.</p>
 
-<p>By embedding business logic directly into the product specification, <code>productStrategy</code> helps ensure that data products are not only technically sound but also strategically impactful.</p>
-<h2 id='optional-attributes-and-elements'>Optional attributes and elements</h2>
-<blockquote>
-<p>Example of product strategy and KPIs usage:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight yaml"><code><span class="na">schema</span><span class="pi">:</span> <span class="s">https://opendataproducts.org/dev/schema/odps.yaml</span>
+<p>By embedding business logic directly into the product specification, <code>productStrategy</code> ensures data products are not only technically sound but also strategically impactful.</p>
+<h2 id='example'>Example</h2><div class="highlight"><pre class="highlight yaml"><code><span class="na">schema</span><span class="pi">:</span> <span class="s">https://opendataproducts.org/dev/schema/odps.yaml</span>
 <span class="na">version</span><span class="pi">:</span> <span class="m">4.0</span>
 <span class="na">product</span><span class="pi">:</span>
   <span class="na">productStrategy</span><span class="pi">:</span>
     <span class="na">objectives</span><span class="pi">:</span>
       <span class="pi">-</span> <span class="na">en</span><span class="pi">:</span> <span class="s">Reduce emergency response time</span>
-    <span class="na">kpis</span><span class="pi">:</span>
-      <span class="na">coverage</span><span class="pi">:</span>
-        <span class="na">name</span><span class="pi">:</span> <span class="s">Event Detection Coverage</span>
-        <span class="na">description</span><span class="pi">:</span> <span class="s">Percentage of city-reported events captured in real time</span>
-        <span class="na">objective</span><span class="pi">:</span> <span class="s">95%</span>
-        <span class="na">unit</span><span class="pi">:</span> <span class="s">percentage</span>
 
-      <span class="na">time-to-insight</span><span class="pi">:</span>
+    <span class="na">contributesToKPI</span><span class="pi">:</span>
+      <span class="na">id</span><span class="pi">:</span> <span class="s">bizkpi-city-response-time</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">City Emergency Response Time</span>
+      <span class="na">description</span><span class="pi">:</span> <span class="s">Average minutes from incident to first responder arrival</span>
+      <span class="na">unit</span><span class="pi">:</span> <span class="s">minutes</span>
+      <span class="na">target</span><span class="pi">:</span> <span class="m">5</span>
+      <span class="na">direction</span><span class="pi">:</span> <span class="s">at_most</span>
+      <span class="na">timeframe</span><span class="pi">:</span> <span class="s2">"</span><span class="s">by</span><span class="nv"> </span><span class="s">Q4"</span>
+
+    <span class="na">productKPIs</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">kpi-detection-coverage</span>
+        <span class="na">name</span><span class="pi">:</span> <span class="s">Event Detection Coverage</span>
+        <span class="na">definition</span><span class="pi">:</span> <span class="err">%</span> <span class="s">of reported incidents captured in real time</span>
+        <span class="na">unit</span><span class="pi">:</span> <span class="s">percentage</span>
+        <span class="na">target</span><span class="pi">:</span> <span class="m">95</span>
+        <span class="na">direction</span><span class="pi">:</span> <span class="s">at_least</span>
+        <span class="na">frequency</span><span class="pi">:</span> <span class="s">hourly</span>
+        <span class="na">calculation</span><span class="pi">:</span> <span class="s">detected_events / reported_events</span>
+
+      <span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">kpi-time-to-insight</span>
         <span class="na">name</span><span class="pi">:</span> <span class="s">Average Time to Insight</span>
-        <span class="na">description</span><span class="pi">:</span> <span class="s">Median time between event occurrence and product update</span>
-        <span class="na">objective</span><span class="pi">:</span> <span class="s">&lt; 60 seconds</span>
+        <span class="na">definition</span><span class="pi">:</span> <span class="s">Median time from event occurrence to product update</span>
         <span class="na">unit</span><span class="pi">:</span> <span class="s">seconds</span>
+        <span class="na">target</span><span class="pi">:</span> <span class="m">60</span>
+        <span class="na">direction</span><span class="pi">:</span> <span class="s">at_most</span>
+        <span class="na">calculation</span><span class="pi">:</span> <span class="s">p50(update_ts - event_ts)</span>
+
+    <span class="na">relatedKPIs</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">bizkpi-traffic-congestion</span>
+        <span class="na">name</span><span class="pi">:</span> <span class="s">Traffic Congestion Index</span>
+        <span class="na">unit</span><span class="pi">:</span> <span class="s">percentage</span>
+        <span class="na">target</span><span class="pi">:</span> <span class="s">-10</span>
+        <span class="na">direction</span><span class="pi">:</span> <span class="s">decrease</span>
+
     <span class="na">strategicAlignment</span><span class="pi">:</span>
       <span class="pi">-</span> <span class="na">en</span><span class="pi">:</span> <span class="s">Smart City Vision </span><span class="m">2030</span>
-</code></pre></div>
+</code></pre></div><h2 id='attributes'>Attributes</h2>
 <table><thead>
 <tr>
-<th><div style="width:180px">Element name</div></th>
+<th>Element</th>
 <th>Type</th>
 <th>Options</th>
 <th>Description</th>
@@ -940,52 +965,155 @@ Development of the specification is under the umbrella of the Linux Foundation. 
 <tr>
 <td><strong>productStrategy</strong></td>
 <td>object</td>
-<td>-</td>
-<td>Top-level block that connects the data product to business goals and KPIs</td>
+<td>–</td>
+<td>Top‑level block that connects the data product to business goals and KPIs.</td>
 </tr>
 <tr>
 <td><strong>objectives</strong></td>
 <td>array of objects</td>
-<td>language-tagged strings</td>
-<td>Business objectives the product supports, written in natural language</td>
+<td>language‑tagged strings</td>
+<td>Business objectives the product supports, written in natural language.</td>
 </tr>
 <tr>
-<td><strong>kpis</strong></td>
-<td>array</td>
-<td><code>$ref</code> or inline object</td>
-<td>Key performance indicators that define success for this product</td>
+<td><strong>contributesToKPI</strong></td>
+<td>object</td>
+<td>required</td>
+<td><strong>Single higher‑level business KPI</strong> (from SMART objectives) that this product is accountable for.</td>
+</tr>
+<tr>
+<td><strong>id</strong></td>
+<td>string</td>
+<td>optional</td>
+<td>Identifier of the business KPI (use shared IDs for roll‑ups).</td>
 </tr>
 <tr>
 <td><strong>name</strong></td>
 <td>string</td>
-<td>-</td>
-<td>Name of the KPI</td>
+<td>required</td>
+<td>KPI name.</td>
 </tr>
 <tr>
 <td><strong>description</strong></td>
 <td>string</td>
-<td>-</td>
-<td>Human-readable description of the KPI</td>
+<td>optional</td>
+<td>Human‑readable description.</td>
 </tr>
 <tr>
 <td><strong>unit</strong></td>
 <td>string</td>
-<td>e.g., <code>percentage</code>, <code>s</code></td>
-<td>Unit of measurement for the KPI</td>
+<td>e.g., <code>percentage</code>, <code>minutes</code>, <code>s</code></td>
+<td>Unit of measurement.</td>
 </tr>
 <tr>
-<td><strong>objective</strong></td>
-<td>string/number</td>
-<td>-</td>
-<td>Target value to be achieved</td>
+<td><strong>target</strong></td>
+<td>number/string</td>
+<td>–</td>
+<td>Target value for the KPI.</td>
+</tr>
+<tr>
+<td><strong>direction</strong></td>
+<td>enum</td>
+<td><code>increase</code>, <code>decrease</code>, <code>at_least</code>, <code>at_most</code>, <code>equals</code></td>
+<td>Desired direction of movement.</td>
+</tr>
+<tr>
+<td><strong>timeframe</strong></td>
+<td>string</td>
+<td>optional</td>
+<td>When the target should be met.</td>
+</tr>
+<tr>
+<td><strong>productKPIs</strong></td>
+<td>array</td>
+<td>optional</td>
+<td>KPIs measured <strong>at product level</strong> that influence <code>contributesToKPI</code>. Useful for contribution analysis and governance checks.</td>
+</tr>
+<tr>
+<td><strong>relatedKPIs</strong></td>
+<td>array</td>
+<td>optional</td>
+<td>Secondary/cross‑unit KPIs to monitor side‑effects and additional value (informational; not for prioritization).</td>
 </tr>
 <tr>
 <td><strong>strategicAlignment</strong></td>
 <td>array</td>
-<td>language-tagged strings</td>
-<td>Strategic initiatives, policies, or visions the product aligns with</td>
+<td>language‑tagged strings</td>
+<td>Strategic initiatives, policies, or visions the product aligns with.</td>
 </tr>
 </tbody></table>
+<h3 id='kpi-object-for-productkpis-relatedkpis'>KPI object (for <code>productKPIs</code> / <code>relatedKPIs</code>)</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td>Identifier (recommended for cross‑product roll‑ups).</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>KPI name.</td>
+</tr>
+<tr>
+<td><code>definition</code></td>
+<td>string</td>
+<td>What exactly is measured.</td>
+</tr>
+<tr>
+<td><code>unit</code></td>
+<td>string</td>
+<td>Unit of measurement.</td>
+</tr>
+<tr>
+<td><code>target</code></td>
+<td>number/string</td>
+<td>Target value.</td>
+</tr>
+<tr>
+<td><code>direction</code></td>
+<td>enum</td>
+<td><code>increase</code>, <code>decrease</code>, <code>at_least</code>, <code>at_most</code>, <code>equals</code>.</td>
+</tr>
+<tr>
+<td><code>timeframe</code></td>
+<td>string</td>
+<td>Optional deadline for the target.</td>
+</tr>
+<tr>
+<td><code>frequency</code></td>
+<td>string</td>
+<td>Measurement cadence (e.g., hourly, daily, monthly).</td>
+</tr>
+<tr>
+<td><code>owner</code></td>
+<td>string</td>
+<td>Responsible role/team (optional).</td>
+</tr>
+<tr>
+<td><code>dataSource</code></td>
+<td>string</td>
+<td>Where the KPI is computed (optional).</td>
+</tr>
+<tr>
+<td><code>calculation</code></td>
+<td>string</td>
+<td>Human‑readable formula (optional).</td>
+</tr>
+</tbody></table>
+<h2 id='governance-by-design-checks-minimum-lovable-gates'>Governance‑by‑Design checks (Minimum Lovable Gates)</h2>
+<ul>
+<li><strong>Required:</strong> <code>contributesToKPI.name</code> present.<br></li>
+<li><strong>Recommended:</strong> ≥1 <code>productKPIs</code> with <code>unit</code>, <code>target</code>, and <code>calculation</code>.<br></li>
+<li><strong>Optional:</strong> <code>relatedKPIs</code> for secondary/side effects.<br></li>
+<li><strong>Traceability:</strong> use shared KPI <code>id</code>s to enable cross‑product roll‑ups against the same business KPI.</li>
+</ul>
+
+<hr>
 
 <p>Bring your ideas, questions, and use cases — <a href="https://discord.gg/7KfnFxAc">join the ODPS Discord</a> and get involved!</p>
 <h1 id='data-contract'>Data Contract</h1>
