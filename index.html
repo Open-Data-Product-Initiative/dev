@@ -375,7 +375,7 @@
             <a href="#data-product-strategy" class="toc-h1 toc-link" data-title="Data Product Strategy">Data Product Strategy</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#attributes" class="toc-h2 toc-link" data-title="Attributes">Attributes</a>
+                    <a href="#attributes-and-options" class="toc-h2 toc-link" data-title="Attributes and options">Attributes and options</a>
                   </li>
               </ul>
           </li>
@@ -904,7 +904,7 @@ Development of the specification is under the umbrella of the Linux Foundation. 
 <p>The <code>productStrategy</code> object captures the business intent behind a data product and <strong>links it to a single higher‑level business KPI</strong> it contributes to. It defines the objectives, the primary KPI at the business level, and the <strong>product‑level KPIs</strong> that indicate contribution. This makes value traceable, performance measurable, and governance lightweight.</p>
 
 <p>By embedding business logic directly into the product specification, <code>productStrategy</code> ensures data products are not only technically sound but also strategically impactful.</p>
-<h2 id='attributes'>Attributes</h2>
+<h2 id='attributes-and-options'>Attributes and options</h2>
 <blockquote>
 <p>Example of catalog object usage:</p>
 </blockquote>
@@ -927,7 +927,7 @@ Development of the specification is under the umbrella of the Linux Foundation. 
     <span class="na">productKPIs</span><span class="pi">:</span>
       <span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">kpi-detection-coverage</span>
         <span class="na">name</span><span class="pi">:</span> <span class="s">Event Detection Coverage</span>
-        <span class="na">definition</span><span class="pi">:</span> <span class="err">%</span> <span class="s">of reported incidents captured in real time</span>
+        <span class="na">description</span><span class="pi">:</span> <span class="err">%</span> <span class="s">of reported incidents captured in real time</span>
         <span class="na">unit</span><span class="pi">:</span> <span class="s">percentage</span>
         <span class="na">target</span><span class="pi">:</span> <span class="m">95</span>
         <span class="na">direction</span><span class="pi">:</span> <span class="s">at_least</span>
@@ -936,7 +936,7 @@ Development of the specification is under the umbrella of the Linux Foundation. 
 
       <span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">kpi-time-to-insight</span>
         <span class="na">name</span><span class="pi">:</span> <span class="s">Average Time to Insight</span>
-        <span class="na">definition</span><span class="pi">:</span> <span class="s">Median time from event occurrence to product update</span>
+        <span class="na">description</span><span class="pi">:</span> <span class="s">Median time from event occurrence to product update</span>
         <span class="na">unit</span><span class="pi">:</span> <span class="s">seconds</span>
         <span class="na">target</span><span class="pi">:</span> <span class="m">60</span>
         <span class="na">direction</span><span class="pi">:</span> <span class="s">at_most</span>
@@ -1021,6 +1021,24 @@ Development of the specification is under the umbrella of the Linux Foundation. 
 <td>When the target should be met.</td>
 </tr>
 <tr>
+<td><strong>frequency</strong></td>
+<td>string</td>
+<td>Measurement cadence (e.g., hourly, daily, monthly).</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>owner</strong></td>
+<td>string</td>
+<td>Responsible role/team (optional).</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>calculation</strong></td>
+<td>string</td>
+<td>Human‑readable formula (optional).</td>
+<td></td>
+</tr>
+<tr>
 <td><strong>productKPIs</strong></td>
 <td>array</td>
 <td>optional</td>
@@ -1037,65 +1055,6 @@ Development of the specification is under the umbrella of the Linux Foundation. 
 <td>array</td>
 <td>language‑tagged strings</td>
 <td>Strategic initiatives, policies, or visions the product aligns with.</td>
-</tr>
-</tbody></table>
-<h3 id='kpi-object-for-productkpis-relatedkpis'>KPI object (for <code>productKPIs</code> / <code>relatedKPIs</code>)</h3>
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>id</code></td>
-<td>string</td>
-<td>Identifier (recommended for cross‑product roll‑ups).</td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td>string</td>
-<td>KPI name.</td>
-</tr>
-<tr>
-<td><code>definition</code></td>
-<td>string</td>
-<td>What exactly is measured.</td>
-</tr>
-<tr>
-<td><code>unit</code></td>
-<td>string</td>
-<td>Unit of measurement.</td>
-</tr>
-<tr>
-<td><code>target</code></td>
-<td>number/string</td>
-<td>Target value.</td>
-</tr>
-<tr>
-<td><code>direction</code></td>
-<td>enum</td>
-<td><code>increase</code>, <code>decrease</code>, <code>at_least</code>, <code>at_most</code>, <code>equals</code>.</td>
-</tr>
-<tr>
-<td><code>timeframe</code></td>
-<td>string</td>
-<td>Optional deadline for the target.</td>
-</tr>
-<tr>
-<td><code>frequency</code></td>
-<td>string</td>
-<td>Measurement cadence (e.g., hourly, daily, monthly).</td>
-</tr>
-<tr>
-<td><code>owner</code></td>
-<td>string</td>
-<td>Responsible role/team (optional).</td>
-</tr>
-<tr>
-<td><code>calculation</code></td>
-<td>string</td>
-<td>Human‑readable formula (optional).</td>
 </tr>
 </tbody></table>
 <h3 id='governance-by-design-checks-minimum-lovable-gates'>Governance‑by‑Design checks (Minimum Lovable Gates)</h3>
