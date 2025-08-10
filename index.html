@@ -377,9 +377,6 @@
                   <li>
                     <a href="#attributes" class="toc-h2 toc-link" data-title="Attributes">Attributes</a>
                   </li>
-                  <li>
-                    <a href="#governance-by-design-checks-minimum-lovable-gates" class="toc-h2 toc-link" data-title="Governance‑by‑Design checks (Minimum Lovable Gates)">Governance‑by‑Design checks (Minimum Lovable Gates)</a>
-                  </li>
               </ul>
           </li>
           <li>
@@ -1096,25 +1093,18 @@ Development of the specification is under the umbrella of the Linux Foundation. 
 <td>Responsible role/team (optional).</td>
 </tr>
 <tr>
-<td><code>dataSource</code></td>
-<td>string</td>
-<td>Where the KPI is computed (optional).</td>
-</tr>
-<tr>
 <td><code>calculation</code></td>
 <td>string</td>
 <td>Human‑readable formula (optional).</td>
 </tr>
 </tbody></table>
-<h2 id='governance-by-design-checks-minimum-lovable-gates'>Governance‑by‑Design checks (Minimum Lovable Gates)</h2>
+<h3 id='governance-by-design-checks-minimum-lovable-gates'>Governance‑by‑Design checks (Minimum Lovable Gates)</h3>
 <ul>
 <li><strong>Required:</strong> <code>contributesToKPI.name</code> present.<br></li>
 <li><strong>Recommended:</strong> ≥1 <code>productKPIs</code> with <code>unit</code>, <code>target</code>, and <code>calculation</code>.<br></li>
 <li><strong>Optional:</strong> <code>relatedKPIs</code> for secondary/side effects.<br></li>
 <li><strong>Traceability:</strong> use shared KPI <code>id</code>s to enable cross‑product roll‑ups against the same business KPI.</li>
 </ul>
-
-<hr>
 
 <p>Bring your ideas, questions, and use cases — <a href="https://discord.gg/7KfnFxAc">join the ODPS Discord</a> and get involved!</p>
 <h1 id='data-contract'>Data Contract</h1>
