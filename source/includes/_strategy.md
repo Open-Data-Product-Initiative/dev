@@ -4,7 +4,7 @@ The `productStrategy` object captures the business intent behind a data product 
 
 By embedding business logic directly into the product specification, `productStrategy` ensures data products are not only technically sound but also strategically impactful.
 
-## Attributes
+## Attributes and options
 
 > Example of catalog object usage:
 
@@ -28,7 +28,7 @@ product:
     productKPIs:
       - id: kpi-detection-coverage
         name: Event Detection Coverage
-        definition: % of reported incidents captured in real time
+        description: % of reported incidents captured in real time
         unit: percentage
         target: 95
         direction: at_least
@@ -37,7 +37,7 @@ product:
 
       - id: kpi-time-to-insight
         name: Average Time to Insight
-        definition: Median time from event occurrence to product update
+        description: Median time from event occurrence to product update
         unit: seconds
         target: 60
         direction: at_most
@@ -66,23 +66,13 @@ product:
 | **target** | number/string | – | Target value for the KPI. |
 | **direction** | enum | `increase`, `decrease`, `at_least`, `at_most`, `equals` | Desired direction of movement. |
 | **timeframe** | string | optional | When the target should be met. |
+| **frequency** | string | Measurement cadence (e.g., hourly, daily, monthly). |
+| **owner** | string | Responsible role/team (optional). |
+| **calculation** | string | Human‑readable formula (optional). |
 | **productKPIs** | array | optional | KPIs measured **at product level** that influence `contributesToKPI`. Useful for contribution analysis and governance checks. |
 | **relatedKPIs** | array | optional | Secondary/cross‑unit KPIs to monitor side‑effects and additional value (informational; not for prioritization). |
 | **strategicAlignment** | array | language‑tagged strings | Strategic initiatives, policies, or visions the product aligns with. |
 
-### KPI object (for `productKPIs` / `relatedKPIs`)
-| Field | Type | Description |
-|---|---|---|
-| `id` | string | Identifier (recommended for cross‑product roll‑ups). |
-| `name` | string | KPI name. |
-| `definition` | string | What exactly is measured. |
-| `unit` | string | Unit of measurement. |
-| `target` | number/string | Target value. |
-| `direction` | enum | `increase`, `decrease`, `at_least`, `at_most`, `equals`. |
-| `timeframe` | string | Optional deadline for the target. |
-| `frequency` | string | Measurement cadence (e.g., hourly, daily, monthly). |
-| `owner` | string | Responsible role/team (optional). |
-| `calculation` | string | Human‑readable formula (optional). |
 
 
 
