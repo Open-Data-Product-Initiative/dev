@@ -1,8 +1,10 @@
 # Data Product Strategy
 
-The `productStrategy` object captures the business intent behind a data product and **links it to a single higher‑level business KPI** it contributes to. It defines the objectives, the primary KPI at the business level, and the **product‑level KPIs** that indicate contribution. This makes value traceable, performance measurable, and governance lightweight.
+The `productStrategy` object captures the business intent behind a data product and links it to a **single higher-level business KPI** it is primarily accountable for. It defines the objectives, the primary KPI at the business level, and the **product-level KPIs** that measure its direct contribution.
 
-By embedding business logic directly into the product specification, `productStrategy` ensures data products are not only technically sound but also strategically impactful.
+Optionally, it can also include **related KPIs** — secondary or cross-unit measures that capture side effects, additional value, or potential impacts outside the product’s main purpose. Tracking these related KPIs helps organizations understand broader business impact, identify synergies, and monitor unintended consequences.
+
+By embedding both the primary and related KPI connections directly into the product specification, `productStrategy` ensures that data products are technically sound, strategically aligned, and transparent in how they deliver value.
 
 ## Attributes and options
 
