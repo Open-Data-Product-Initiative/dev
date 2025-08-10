@@ -82,18 +82,16 @@ product:
 | `timeframe` | string | Optional deadline for the target. |
 | `frequency` | string | Measurement cadence (e.g., hourly, daily, monthly). |
 | `owner` | string | Responsible role/team (optional). |
-| `dataSource` | string | Where the KPI is computed (optional). |
 | `calculation` | string | Human‑readable formula (optional). |
 
 
 
-## Governance‑by‑Design checks (Minimum Lovable Gates)
+### Governance‑by‑Design checks (Minimum Lovable Gates)
 
 - **Required:** `contributesToKPI.name` present.  
 - **Recommended:** ≥1 `productKPIs` with `unit`, `target`, and `calculation`.  
 - **Optional:** `relatedKPIs` for secondary/side effects.  
 - **Traceability:** use shared KPI `id`s to enable cross‑product roll‑ups against the same business KPI.
 
----
 
 Bring your ideas, questions, and use cases — [join the ODPS Discord](https://discord.gg/7KfnFxAc) and get involved!
