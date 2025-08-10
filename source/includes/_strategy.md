@@ -1,9 +1,5 @@
 # Data Product Strategy
 
-The `productStrategy` object captures the business intent behind a data product and **links it to a single higher‑level business KPI** it contributes to. It defines the objectives, the primary KPI at the business level, and the **product‑level KPIs** that indicate contribution. This makes value traceable, performance measurable, and governance lightweight.
-
-By embedding business logic directly into the product specification, `productStrategy` ensures data products are not only technically sound but also strategically impactful.
-
 > Example of catalog object usage:
 
 ```yml
@@ -51,6 +47,10 @@ product:
     strategicAlignment:
       - en: Smart City Vision 2030
 ```
+
+The `productStrategy` object captures the business intent behind a data product and **links it to a single higher‑level business KPI** it contributes to. It defines the objectives, the primary KPI at the business level, and the **product‑level KPIs** that indicate contribution. This makes value traceable, performance measurable, and governance lightweight.
+
+By embedding business logic directly into the product specification, `productStrategy` ensures data products are not only technically sound but also strategically impactful.
 
 ## Attributes
 
