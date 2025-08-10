@@ -15,7 +15,8 @@ product:
   productStrategy:
     objectives:
       - en: Reduce emergency response time
-
+    strategicAlignment:
+      - en: Smart City Vision 2030
     contributesToKPI:
       id: bizkpi-city-response-time
       name: City Emergency Response Time
@@ -24,7 +25,12 @@ product:
       target: 5
       direction: at_most
       timeframe: "by Q4"
-
+    relatedKPIs:
+      - id: bizkpi-traffic-congestion
+        name: Traffic Congestion Index
+        unit: percentage
+        target: -10
+        direction: decrease
     productKPIs:
       - id: kpi-detection-coverage
         name: Event Detection Coverage
@@ -43,15 +49,6 @@ product:
         direction: at_most
         calculation: p50(update_ts - event_ts)
 
-    relatedKPIs:
-      - id: bizkpi-traffic-congestion
-        name: Traffic Congestion Index
-        unit: percentage
-        target: -10
-        direction: decrease
-
-    strategicAlignment:
-      - en: Smart City Vision 2030
 ```
 
 | Element | Type | Options | Description |
