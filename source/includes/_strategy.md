@@ -8,6 +8,11 @@ Optionally, it can also include **related KPIs** — secondary or cross-unit mea
 2. **Track side effects** — monitor unintended positive or negative impacts on other KPIs.
 3. **Highlight cross-department value** — reveal benefits for other business units, strengthening prioritization and funding cases.
 
+Beyond KPIs, `productStrategy` can include:
+
+- **objectives** — natural-language statements describing the business outcomes the product supports.
+- **strategicAlignment** — references to corporate initiatives, programs, or policy documents that the product contributes to (e.g., Smart City Vision 2030).
+
 By embedding both primary and related KPI connections directly into the product specification, `productStrategy` ensures that data products remain technically sound, strategically aligned, and transparent in how they deliver value.
 
 ## Attributes and options
