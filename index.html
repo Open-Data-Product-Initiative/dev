@@ -901,9 +901,11 @@ Development of the specification is under the umbrella of the Linux Foundation. 
 
 <p>If you see something missing, described inaccurately or plain wrong, or you want to comment the specification, <a href="https://github.com/Open-Data-Product-Initiative/dev/issues">raise an issue in Github</a></p>
 <h1 id='data-product-strategy'>Data Product Strategy</h1>
-<p>The <code>productStrategy</code> object captures the business intent behind a data product and <strong>links it to a single higher‑level business KPI</strong> it contributes to. It defines the objectives, the primary KPI at the business level, and the <strong>product‑level KPIs</strong> that indicate contribution. This makes value traceable, performance measurable, and governance lightweight.</p>
+<p>The <code>productStrategy</code> object captures the business intent behind a data product and links it to a <strong>single higher-level business KPI</strong> it is primarily accountable for. It defines the objectives, the primary KPI at the business level, and the <strong>product-level KPIs</strong> that measure its direct contribution.</p>
 
-<p>By embedding business logic directly into the product specification, <code>productStrategy</code> ensures data products are not only technically sound but also strategically impactful.</p>
+<p>Optionally, it can also include <strong>related KPIs</strong> — secondary or cross-unit measures that capture side effects, additional value, or potential impacts outside the product’s main purpose. Tracking these related KPIs helps organizations understand broader business impact, identify synergies, and monitor unintended consequences.</p>
+
+<p>By embedding both the primary and related KPI connections directly into the product specification, <code>productStrategy</code> ensures that data products are technically sound, strategically aligned, and transparent in how they deliver value.</p>
 <h2 id='attributes-and-options'>Attributes and options</h2>
 <blockquote>
 <p>Example of catalog object usage:</p>
