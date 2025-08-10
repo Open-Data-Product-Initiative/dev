@@ -4,7 +4,7 @@ The `productStrategy` object captures the business intent behind a data product 
 
 By embedding business logic directly into the product specification, `productStrategy` ensures data products are not only technically sound but also strategically impactful.
 
-## Example
+> Example of catalog object usage:
 
 ```yml
 schema: https://opendataproducts.org/dev/schema/odps.yaml
