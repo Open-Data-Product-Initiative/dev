@@ -151,16 +151,16 @@ html, body {
     transition-duration: 200ms;
   }
 
-  // This is the currently selected ToC entry
+  // This is the currently selected ToC entry 
   .toc-link.active {
-    background-color: $nav-active-bg;
-    color: $nav-active-text;
+    background-color: #230336;
+    color: #fff;
   }
 
   // this is parent links of the currently selected ToC entry
   .toc-link.active-parent {
-    background-color: $nav-active-parent-bg;
-    color: $nav-active-parent-text;
+    background-color: #230336;
+    color: #fff;
   }
 
   .toc-list-h2 {
@@ -268,7 +268,7 @@ html, body {
   
   .dark-box {
     width: $examples-width;
-    background-color: $examples-bg;
+    background-color: #230336;
     position: absolute;
     right: 0;
     top: 0;
@@ -279,6 +279,7 @@ html, body {
     position: fixed;
     z-index: 50;
     border-bottom: 5px solid $lang-select-active-bg;
+    visibility: hidden;
   }
 }
 
@@ -357,9 +358,10 @@ html, body {
     padding-bottom: 0.5em;
     margin-bottom: $h1-margin-bottom;
     margin-top: 2em;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    background-color: #fdfdfd;
+    border-top: 0px solid #FCB601;
+    border-bottom: 0px solid #fff;
+    background-color: #fff; // #5F1C87
+    color:#230336;
   }
 
   h1:first-child, div:first-child + h1 {
@@ -371,11 +373,13 @@ html, body {
     @extend %header-font;
     font-size: 19px;
     margin-top: 4em;
-    margin-bottom: 0;
-    border-top: 1px solid #ccc;
+    margin-bottom: 20px;
+    border-top: 0px solid #ccc;
     padding-top: 1.2em;
     padding-bottom: 1.2em;
-    background-image: linear-gradient(to bottom, rgba(#fff, 0.2), rgba(#fff, 0));
+    background-color: transparent;
+    // margin-right: 1px;
+
   }
 
   // h2s right after h1s should bump right up
@@ -608,11 +612,11 @@ html, body {
   }
 
   .toc-wrapper .lang-selector {
-    display: block;
+    visibility: hidden;
   }
 
   .page-wrapper .lang-selector {
-    display: none;
+    visibility: hidden;
   }
 
   %right-col {

@@ -1,12 +1,5 @@
-# Hello world example
-
-> Example of complete working Data Product specification instance:
-
-```yml
-
----
 schema: 'https://opendataproducts.org/v3.1/schema/odps.yaml'
-version: 4.0
+version: 3.1
 product:
   contract:
     id: 02323M123
@@ -42,7 +35,7 @@ product:
         - tourism
         - smartcity
       standards:
-        - ODPS 4.0
+        - ODPS 3.1
       tags:
         - smartcity
         - events
@@ -68,13 +61,13 @@ product:
             Shadow pricing only for internal visibility. No actual billing
             applied.
           paymentGateway:
-            $ref: '#/product/paymentGateways/default'
+            $ref: '#/paymentGateways/default'
           dataQuality:
-            $ref: '#/product/dataQuality/default'
+            $ref: '#/dataQuality/default'
           SLA:
-            $ref: '#/product/SLA/default'
+            $ref: '#/SLA/default'
           access:
-            $ref: '#/product/dataAccess/API'
+            $ref: '#/dataAccess/API'
         - name: Extended User
           priceCurrency: USD
           price: 300
@@ -90,13 +83,13 @@ product:
             Shadow pricing estimate based on infrastructure and operational cost
             models.
           paymentGateway:
-            $ref: '#/product/paymentGateways/default'
+            $ref: '#/paymentGateways/default'
           dataQuality:
-            $ref: '#/product/dataQuality/default'
+            $ref: '#/dataQuality/default'
           SLA:
-            $ref: '#/product/SLA/default'
+            $ref: '#/SLA/default'
           access:
-            $ref: '#/product/dataAccess/API'
+            $ref: '#/dataAccess/API'
         - name: High Volume Access
           priceCurrency: USD
           price: 2000
@@ -109,100 +102,91 @@ product:
             - Guaranteed SLA for availability and response time
           notes: Shadow pricing for strategic high-usage internal consumers.
           paymentGateway:
-            $ref: '#/product/paymentGateways/agent'
+            $ref: '#/paymentGateways/agent'
           dataQuality:
-            $ref: '#/product/dataQuality/premium'
+            $ref: '#/dataQuality/premium'
           SLA:
-            $ref: '#/product/SLA/premium'
+            $ref: '#/SLA/premium'
           access:
-            $ref: '#/product/dataAccess/Agent'
+            $ref: '#/dataAccess/Agent'
   SLA:
-    declarative:
-      default:
-        name:
-          en: The Basic SLA
-        description:
-          en: The basic SLA package
-        dimensions:
-          - dimension: uptime
-            displaytitle:
-              en: Uptime
-            objective: 90
-            unit: percent
-          - dimension: responseTime
-            objective: 200
-            unit: milliseconds
-          - dimension: updateFrequency
-            objective: 30
-            unit: minutes
-      premium:
-        name:
-          en: The Premium SLA
-        description:
-          en: The Premium SLA package
-        dimensions:
-          - dimension: uptime
-            displaytitle:
-              en: Uptime
-            objective: 99
-            unit: percent
-          - dimension: responseTime
-            objective: 100
-            unit: milliseconds
-          - dimension: updateFrequency
-            objective: 5
-            unit: minutes
-    support:
-    phoneNumber: '+971508976456'
-    phoneServiceHours: Mon–Fri 8am–4pm (GMT)
-    email: support@opendataproducts.org
-    emailServiceHours: Mon–Fri 8am–4pm (GMT)
-    documentationURL: ''
-
+    default:
+      name:
+        en: The Basic SLA
+      description:
+        en: The basic SLA package
+      dimensions:
+        - dimension: uptime
+          displaytitle:
+            en: Uptime
+          objective: 90
+          unit: percent
+        - dimension: responseTime
+          objective: 200
+          unit: milliseconds
+        - dimension: updateFrequency
+          objective: 30
+          unit: minutes
+    premium:
+      name:
+        en: The Premium SLA
+      description:
+        en: The Premium SLA package
+      dimensions:
+        - dimension: uptime
+          displaytitle:
+            en: Uptime
+          objective: 99
+          unit: percent
+        - dimension: responseTime
+          objective: 100
+          unit: milliseconds
+        - dimension: updateFrequency
+          objective: 5
+          unit: minutes
   dataQuality:
-    declarative:
-      default:
-        displaytitle:
-          en: The Basic Data Quality
-        description:
-          en: The basic quality package
-        dimensions:
-          - dimension: accuracy
-            displaytitle:
-              en: Data Accuracy (percent)
-            description:
-              en: >
-                Data Accuracy ensures the data product reflects the real-world
-                entities or events it represents, minimizing errors and providing
-                reliable insights.
-            objective: 90
-            unit: percentage
-          - dimension: completeness
-            displaytitle:
-              en: Data Completeness (percent)
-            objective: 90
-            unit: percentage
-      premium:
-        displaytitle:
-          en: The Premium Data Quality
-        description:
-          en: The premium quality package
-        dimensions:
-          - dimension: accuracy
-            displaytitle:
-              en: Data Accuracy (percent)
-            description:
-              en: >
-                Data Accuracy ensures the data product reflects the real-world
-                entities or events it represents, minimizing errors and providing
-                reliable insights.
-            objective: 98
-            unit: percentage
-          - dimension: completeness
-            displaytitle:
-              en: Data Completeness (percent)
-            objective: 99
-            unit: percentage
+    default:
+      displaytitle:
+        en: The Basic Data Quality
+      description:
+        en: The basic quality package
+      dimensions:
+        - dimension: accuracy
+          displaytitle:
+            en: Data Accuracy (percent)
+          description:
+            en: >
+              Data Accuracy ensures the data product reflects the real-world
+              entities or events it represents, minimizing errors and providing
+              reliable insights.
+          objective: 90
+          unit: percentage
+        - dimension: completeness
+          displaytitle:
+            en: Data Completeness (percent)
+          objective: 90
+          unit: percentage
+    premium:
+      displaytitle:
+        en: The Premium Data Quality
+      description:
+        en: The premium quality package
+      dimensions:
+        - dimension: accuracy
+          displaytitle:
+            en: Data Accuracy (percent)
+          description:
+            en: >
+              Data Accuracy ensures the data product reflects the real-world
+              entities or events it represents, minimizing errors and providing
+              reliable insights.
+          objective: 98
+          unit: percentage
+        - dimension: completeness
+          displaytitle:
+            en: Data Completeness (percent)
+          objective: 99
+          unit: percentage
   dataAccess:
     default:
       name:
@@ -259,7 +243,12 @@ product:
       reference: 'https://www.x402.org/'
       spec: |
         paymentMiddleware("0xYourAddress", {"/mcp-access": "$0.01"});
-  
+  support:
+    phoneNumber: '+971508976456'
+    phoneServiceHours: Mon–Fri 8am–4pm (GMT)
+    email: support@opendataproducts.org
+    emailServiceHours: Mon–Fri 8am–4pm (GMT)
+    documentationURL: ''
   license:
     en:
       scope:
@@ -346,7 +335,3 @@ product:
       ratingCount: '1245'
       slogan: ''
       parentOrganization: ''
-
-
-```
-You'll find a complete machine-readbale example of a data product from the right column. It is imaginary data product *Urban Pulse* which contains derived data about events in the given city. The product has 4 pricing plans which are mostly based on recurring subscription model. Note! Not all voluntary attributes are used in the example and multilingualism has not been fully applied.

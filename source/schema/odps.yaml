@@ -1,0 +1,129 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: ODPS Minimal Schema
+type: object
+required: [schema, version, product]
+properties:
+  schema:
+    type: string
+    format: uri
+  version:
+    type: number
+  product:
+    type: object
+    required: [contract, details, pricingPlans, SLA, dataQuality, dataAccess, paymentGateways, support, license, dataHolder]
+    properties:
+      contract:
+        type: object
+        required: [id, type, contractVersion, contractURL]
+        properties:
+          id:
+            type: string
+          type:
+            type: string
+          contractVersion:
+            type: string
+          contractURL:
+            type: string
+            format: uri
+
+      details:
+        type: object
+        properties:
+          en:
+            type: object
+            required: [name, productID, valueProposition, description, visibility, status, productVersion]
+            properties:
+              name:
+                type: string
+              productID:
+                type: string
+              valueProposition:
+                type: string
+              description:
+                type: string
+              visibility:
+                type: string
+              status:
+                type: string
+              productVersion:
+                type: string
+
+      pricingPlans:
+        type: object
+        properties:
+          declarative:
+            type: object
+            properties:
+              en:
+                type: array
+                items:
+                  type: object
+                  required: [name, priceCurrency, price, billingDuration, unit, paymentGateway, SLA, access]
+
+      SLA:
+        type: object
+        properties:
+          declarative:
+            type: object
+            additionalProperties:
+              type: object
+              properties:
+                name:
+                  type: object
+                  properties:
+                    en:
+                      type: string
+                dimensions:
+                  type: array
+                  items:
+                    type: object
+                    required: [dimension, objective, unit]
+
+      dataQuality:
+        type: object
+        properties:
+          declarative:
+            type: object
+            additionalProperties:
+              type: object
+              properties:
+                displaytitle:
+                  type: object
+                  properties:
+                    en:
+                      type: string
+                dimensions:
+                  type: array
+                  items:
+                    type: object
+                    required: [dimension, objective, unit]
+
+      dataAccess:
+        type: object
+        additionalProperties:
+          type: object
+          required: [outputPorttype]
+
+      paymentGateways:
+        type: object
+        additionalProperties:
+          type: object
+          required: [type, version]
+
+      support:
+        type: object
+        required: [phoneNumber, email]
+
+      license:
+        type: object
+        properties:
+          en:
+            type: object
+            required: [scope, termination, governance]
+
+      dataHolder:
+        type: object
+        properties:
+          en:
+            type: object
+            required: [legalName, email, URL, streetAddress, postalCode, addressLocality, addressCountry]

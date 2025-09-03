@@ -26,12 +26,12 @@ under the License.
 <!doctype html>
 <html>
   <head>
-    <link rel="icon" href=https://data-product-business.github.io/open-data-product-spec/images/favicon-bc890431.png"/>
+    <link rel="icon" href="https://data-product-business.github.io/open-data-product-spec/images/favicon-bc890431.png"/>
     <meta charset="utf-8">
-    <meta property="og:title" content="Open Data Product Specification 2.0" />
-    <meta property="og:url" content="https://data-product-business.github.io/open-data-product-spec/" />
+    <meta property="og:title" content="Open Data Product Specification - Development Version" />
+    <meta property="og:url" content="https://opendataproducts.org/dev" />
     <meta property=”og:type” content=”website” />
-    <meta property="og:image" content="https://opendataproducts.org/images/logo-dps-new-4bb33ca5.png" />
+    <meta property="og:image" content="https://opendataproducts.org/images/social.png" />
     <meta property="og:description" 
     content="The Open Data Product Specification is a vendor-neutral, open-source machine-readable data product metadata model. It defines the objects and attributes as well as the structure of digital data products." />
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
@@ -45,7 +45,9 @@ under the License.
         >
       <% end %>
     <% end %>
-    <title><%= current_page.data.title || "Open Data Product Specification 2.0" %></title>
+
+    <title><%= current_page.data.title || "Open Data Product Specification Development Version" %></title>
+
 
     <style media="screen">
       <%= Rouge::Themes::MonokaiSublimeSlate.render(:scope => '.highlight') %>
@@ -90,7 +92,7 @@ under the License.
       </span>
     </a>
     <div class="toc-wrapper">
-      <%= image_tag "logo-dps-new.png", class: 'logo' %>
+      <%= image_tag "logo-dps-2024.png", class: 'logo' %>
       <% if language_tabs.any? %>
         <div class="lang-selector">
           <% language_tabs.each do |lang| %>
