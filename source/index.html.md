@@ -45,7 +45,6 @@ The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL 
 The specification is shared under <a href='https://www.apache.org/licenses/LICENSE-2.0'>Apache 2.0</a> license. 
 Development of the specification is under the umbrella of the Linux Foundation. 
 
-
 **Version source:**
 
 * <a href="https://github.com/Open-Data-Product-Initiative/dev">https://github.com/Open-Data-Product-Initiative/dev</a>
